@@ -1,8 +1,10 @@
 {
   "name": "@kovalenko/base-filter",
-  "version": "0.0.1",
+  "version": "0.0.3",
   "description": "my base filter",
-  "peerDependencies": {},
+  "peerDependencies": {
+    "moment": "^2.29.4"
+  },
   "dependencies": {
     "class-transformer": "^0.5.1",
     "qs": "^6.11.2",

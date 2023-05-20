@@ -1,5 +1,9 @@
 import {Transform} from 'class-transformer';
 
+/**
+ * Transforms query param to boolean
+ * @constructor
+ */
 export function TransformBoolean(): PropertyDecorator {
   return Transform(({value}) => {
     if (value == null) {

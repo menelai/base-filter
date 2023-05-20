@@ -1,21 +1,7 @@
-# BaseFilter
+import { BaseFilter, FilterProperty, TransformBoolean, TransformArray, TransformMoment} from "base-filter";
+import {Type} from 'class-transformer';
+import moment from "moment";
 
-## Install
-
-```shell
-npm i @kovalenko/base-filter
-```
-
-## Setup
-
-add import to polyfills.ts
-```typescript
-import 'reflect-metadata';
-```
-
-## Usage
-create user-list-filter.ts
-```typescript
 export class TestFilter extends BaseFilter {
   @FilterProperty()
   title?: string;
@@ -34,7 +20,3 @@ export class TestFilter extends BaseFilter {
   @FilterProperty((submittedAtFrom: moment.Moment[]) => submittedAtFrom?.map(ts => ts.format('YYYY-MM')))
   submittedAtFrom?: moment.Moment[];
 }
-```
-
-## API
-API is in d.ts
