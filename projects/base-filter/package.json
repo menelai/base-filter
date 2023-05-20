@@ -1,0 +1,11 @@
+{
+  "name": "@kovalenko/base-filter",
+  "version": "0.0.1",
+  "description": "my base filter",
+  "peerDependencies": {},
+  "dependencies": {
+    "class-transformer": "^0.5.1",
+    "qs": "^6.11.2",
+    "tslib": "^2.3.0"
+  }
+}
