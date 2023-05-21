@@ -23,6 +23,7 @@ export class AppComponent implements OnInit {
 
     this.frontFilter.updated$.pipe(
     ).subscribe(f => {
+      console.log(f.toQueryParams());
       console.log(f.qsStringify());
     });
   }

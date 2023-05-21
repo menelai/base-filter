@@ -132,27 +132,31 @@ export class BaseFilter {
    * serialization
    */
   toJSON(): Record<string, any> {
+    return {
+      ...this.toQueryParams(),
+      limit: this.limit,
+    }
+  }
+
+  /**
+   * Convert for angular router
+   */
+  toQueryParams(): Record<string, any> {
     return [...(this.constructor as any).deletableProperties].reduce((ret, key: keyof this) => {
       const serializeFn = (this.constructor as any).serializeField.get(key);
       ret[key] = serializeFn ? serializeFn(this[key], this) : this[key];
 
       return ret;
-    }, {
-      limit: this.limit,
-    });
+    }, {});
   }
 
   /**
    * Convert to query string
    */
   qsStringify(): string {
-    return stringify(
-      {
-        ...this.queryParams,
-        ...(this.constructor as any).key ? {[(this.constructor as any).key]: this.toJSON()} : this.toJSON(),
-      },
-      {skipNulls: true}
-    )
+    const obj = (this.constructor as any).key ? {[(this.constructor as any).key]: this.toJSON()} : this.toJSON();
+
+    return stringify(obj,{skipNulls: true});
   }
 
   /**

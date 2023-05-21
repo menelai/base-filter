@@ -1,6 +1,6 @@
 {
   "name": "@kovalenko/base-filter",
-  "version": "0.0.3",
+  "version": "0.0.5",
   "description": "my base filter",
   "peerDependencies": {
     "moment": "^2.29.4"
