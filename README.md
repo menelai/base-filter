@@ -1,27 +1,104 @@
-# BaseFilterTest
+# BaseFilter
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 14.0.0.
+## Install
 
-## Development server
+```shell
+npm i @kovalenko/base-filter
+```
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+## Setup
 
-## Code scaffolding
+add import to polyfills.ts
+```typescript
+import 'reflect-metadata';
+```
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+## Usage
 
-## Build
+### Filter
+```typescript
+import {BaseFilter} from '@kovalenko/base-filter';
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+export class TestFilter extends BaseFilter {
+  @FilterProperty()
+  title?: string;
 
-## Running unit tests
+  @FilterProperty()
+  @TransformBoolean()
+  hasParticipants?: boolean;
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+  @Type(() => Number)
+  @TransformArray()
+  @FilterProperty()
+  campaign?: number[];
 
-## Running end-to-end tests
+  @TransformMoment()
+  @TransformArray()
+  @FilterProperty((submittedAtFrom: moment.Moment[]) => submittedAtFrom?.map(ts => ts.format('YYYY-MM')))
+  submittedAtFrom?: moment.Moment[];
+}
+```
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
 
-## Further help
+### Service
+```typescript
+import type {TestFilter} from './test-filter';
+import {QsHttpParams} from '@kovalenko/base-filter';
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+@Injectable()
+export class PersonService {
+
+  constructor(
+    private http: HttpClient,
+  ) { }
+
+  list(flt: TestFilter): Observable<any> {
+    return this.http.get('api/v1/test', {
+      params: new QsHttpParams(flt.toJSON()),
+    });
+  }
+}
+```
+
+
+### Component
+```typescript
+import {ActivatedRoute} from '@angular/router';
+import {PersonService} from './person.service';
+import {TestFilter} from './test-filter';
+
+@Component({
+  selector: 'some-component',
+  template: 'hi',
+})
+export class ApplicationListComponent implements OnInit, OnDestroy {
+  loading = false;
+
+  filter = new TestFilter(100, this.route.queryParams);
+
+  constructor(
+    private route: ActivatedRoute,
+    private personService: PersonService,
+  ) { }
+
+  ngOnInit(): void {
+    this.filter.updated$.pipe(
+      skip(1),
+    ).subscribe(f => {
+      this.router.navigate([], {
+        queryParams: f.toQueryParams(),
+        relativeTo: this.route,
+        queryParamsHandling: 'merge',
+      });
+    });
+
+    this.filter.query$.pipe(
+      tap(() => this.loading = true),
+      switchMap(f => this.personService.list(f)),
+    ).subscribe();
+  }
+}
+```
+
+## API
+API is in d.ts
