@@ -15,111 +15,330 @@ import 'reflect-metadata';
 
 ## Usage
 
-### Class BaseFilter
+### Class `BaseFilter`
 
 #### Protected static properties
 
-##### key?: string
-If set then query params will pe parsed from the key in query string. E.g.:
+<table>
+  <tr>
+  <td>
+  key?
+  
+  string
+  </td>
+  <td>
+  If set then query params will pe parsed from the key in query string. E.g.:
+  
+  ```typescript
+  class MyFilter extends BaseFilter {
+    protected static readonly key = 't';
+  }
+  ```
+  </td>
+  </tr>
 
-```typescript
-class MyFilter extends BaseFilter {
-  protected static readonly key = 't';
-}
-```
+  <tr>
+  <td>
+  defaultPage = 1
+  </td>
+  <td>
+  Default pagination page number
+  </td>
+  </tr>
+</table>
 
-##### defaultPage = 1
-Default pagination page number
-
-https://path/to?t[param]=test is parsed into `{param: 'test'}`
 
 #### Constructor
-```typescript
-constructor(limit: number, queryParams?: Observable<any>)
-```
-`limit`: items per page
 
-`queryParams` — query Observable, e.g. Angular ActivatedRoute.queryParams. 
+<table>
+  <tr>
+  <td>
+  limit
+
+number
+  </td>
+  <td>
+  items per page
+  </td>
+  </tr>
+
+  <tr>
+  <td>
+  queryParams?
+
+Observable
+  </td>
+  <td>
+  query Observable, e.g. Angular ActivatedRoute.queryParams. 
 Optional, sets `query$` property. 
-If omitted, the filter will be updated via internal observable `update$`.
+If omitted, the filter will be updated via internal observable `update$`
+  </td>
+  </tr>
+</table>
 
 #### Public properties
 
-##### updated$: Observable
-readonly. Triggers when filter is being updated.
+<table>
+  <tr>
+  <td>
+  updated$
 
-##### query$: Observable
-readonly. Observes query params or internal changes.
+Observable
+  </td>
+  <td>
+  readonly. Triggers when filter is being updated.
+  </td>
+  </tr>
 
-##### page: number
-Current pagination page. Updates from query string
+  <tr>
+  <td>
+  query$
 
-##### limit: number
-items per page.
+Observable
+  </td>
+  <td>
+  readonly. Observes query params or internal changes.
+  </td>
+  </tr>
 
-##### offset: number
-getter for current pagination offset: `page * limit`.
+  <tr>
+  <td>
+  page
+
+number
+  </td>
+  <td>
+  Current pagination page. Updates from query string
+  </td>
+  </tr>
+  <tr>
+  <td>
+  limit
+
+number
+  </td>
+  <td>
+  items per page
+  </td>
+  </tr>
+
+  <tr>
+  <td>
+  offset
+
+number
+  </td>
+  <td>
+  getter for current pagination offset: `page * limit`
+  </td>
+  </tr>
+
+</table>
+
 
 #### Public methods
 
-##### clear(): void
-clears all filter properties and changes the page to first.
+<table>
+<tr>
+<th colspan="2">clear</th>
+</tr>
+<tr>
+<td colspan="2">Clears all filter properties and changes the page to first</td>
+</tr>
+<tr>
+<th colspan="2">Parameters</th>
+</tr>
+<td colspan="2">No</td>
+<tr>
+<th colspan="2">Returns</th>
+</tr>
+<tr>
+<td colspan="2">void</td>
+</tr>
+</table>
 
-##### changePage(pageIndex: number): void
-changes filter page to `pageIndex`
 
-##### updated(): void
-triggers filter update
+<table>
+<tr>
+<th colspan="2">changePage</th>
+</tr>
+<tr>
+<td colspan="2">Changes filter page</td>
+</tr>
+<tr>
+<th colspan="2">Parameters</th>
+</tr>
+<tr>
+<td>pageIndex?<br>number</td><td>Index</td>
+</tr>
+<tr>
+<th colspan="2">Returns</th>
+</tr>
+<tr>
+<td colspan="2">void</td>
+</tr>
+</table>
 
-##### toJSON(): Record
-returns a record of filter properties decorated with `@FilterProperty`
+<table>
+<tr>
+<th colspan="2">updated</th>
+</tr>
+<tr>
+<td colspan="2">Triggers filter update</td>
+</tr>
+<tr>
+<th colspan="2">Parameters</th>
+</tr>
+<td colspan="2">No</td>
+<tr>
+<th colspan="2">Returns</th>
+</tr>
+<tr>
+<td colspan="2">void</td>
+</tr>
+</table>
 
-##### toQueryParams(): Record
-returns a record of filter properties decorated with `@FilterProperty` for angular router, excluding limit
+<table>
+<tr>
+<th colspan="2">toJSON</th>
+</tr>
+<tr>
+<td colspan="2">Returns a record of filter properties decorated with `@FilterProperty`</td>
+</tr>
+<tr>
+<th colspan="2">Parameters</th>
+</tr>
+<td colspan="2">No</td>
+<tr>
+<th colspan="2">Returns</th>
+</tr>
+<tr>
+<td colspan="2">Record&lt;string, any&gt;</td>
+</tr>
+</table>
+
+<table>
+<tr>
+<th colspan="2">toQueryParams</th>
+</tr>
+<tr>
+<td colspan="2">Returns a record of filter properties decorated with `@FilterProperty` for angular router, excluding limit</td>
+</tr>
+<tr>
+<th colspan="2">Parameters</th>
+</tr>
+<td colspan="2">No</td>
+<tr>
+<th colspan="2">Returns</th>
+</tr>
+<tr>
+<td colspan="2">Record&lt;string, any&gt;</td>
+</tr>
+</table>
+
 
 #### Protected methods
 
-##### transformParams(): void
-default query params transformation
+<table>
+<tr>
+<th colspan="2">transformParams</th>
+</tr>
+<tr>
+<td colspan="2">default query params transformation</td>
+</tr>
+<tr>
+<th colspan="2">Parameters</th>
+</tr>
+<td colspan="2">No</td>
+<tr>
+<th colspan="2">Returns</th>
+</tr>
+<tr>
+<td colspan="2">void</td>
+</tr>
+</table>
 
-##### deleteProperties(): void
-default filter properties deletion
+<table>
+<tr>
+<th colspan="2">deleteProperties</th>
+</tr>
+<tr>
+<td colspan="2">default filter properties deletion</td>
+</tr>
+<tr>
+<th colspan="2">Parameters</th>
+</tr>
+<td colspan="2">No</td>
+<tr>
+<th colspan="2">Returns</th>
+</tr>
+<tr>
+<td colspan="2">void</td>
+</tr>
+</table>
 
 ### Decorators
 
-#### @FilterProperty(serialize?: SerializeFn): PropertyDecorator
-Declares filter property which will be updated from query string.
+<table>
+  <tr>
+  <td>
+  @FilterProperty(serialize?: SerializeFn)<br>PropertyDecorator
+  </td>
+  <td>
+  If set then query params will pe parsed from the key in query string. E.g.:
 
-Optionally in `serialize` there can be transformation for query param.
+  ```typescript
+  class MyFilter extends BaseFilter {
+    protected static readonly key = 't';
+  }
+  ```
+  </td>
+  </tr>
 
-```typescript
-@FilterProperty((v?: number) => v?.toString())
-```
-
-#### @TransformBoolean(): PropertyDecorator
-Transforms query param into boolean.
+  <tr>
+  <td>
+  @TransformBoolean()<br>PropertyDecorator
+  </td>
+  <td>
+  Transforms query param into boolean
 
 https://path/to?param=true becomes `{param: true}`
+  </td>
+  </tr>
 
-#### @TransformArray(): PropertyDecorator
-Transforms query param into an array.
+  <tr>
+  <td>
+  @TransformArray()<br>PropertyDecorator
+  </td>
+  <td>
+  Transforms query param into boolean
 
 https://path/to?param=test becomes `{param: ['test']}`
+  </td>
+  </tr>  
 
-#### @TransformMoment(): PropertyDecorator
+
+  <tr>
+  <td>
+  @TransformMoment()<br>PropertyDecorator
+  </td>
+  <td>
 Transforms date param into moment.js object.
 
 https://path/to?date=2020-10-10 becomes `{param: Moment}`
+  </td>
+  </tr>  
+</table>
 
-
-### QsHttpParams
-Class extending @angular/common/http/HttpParams to pass filter into angular http client.
-
-### Example
+### Class `QsHttpParams`
+Class extending `@angular/common/http/HttpParams` to pass filter into angular http client.
 
 ```typescript
 this.http.get('api/v1/test', {params: new QsHttpParams(filter.toJSON())});
 ```
+
+
+### Example
 
 #### Filter
 ```typescript
