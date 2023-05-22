@@ -26,7 +26,6 @@ jobs:
           cache: 'npm'
       - run: npm i --legacy-peer-deps
       - run: npm run base-filter:prod
-      - run: cp README.md dist/base-filter
       - run: npx semantic-release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
