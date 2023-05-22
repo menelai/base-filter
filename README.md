@@ -15,7 +15,113 @@ import 'reflect-metadata';
 
 ## Usage
 
-### Filter
+### Class BaseFilter
+
+#### Protected static properties
+
+##### key?: string
+If set then query params will pe parsed from the key in query string. E.g.:
+
+```typescript
+class MyFilter extends BaseFilter {
+  protected static readonly key = 't';
+}
+```
+
+##### defaultPage = 1
+Default pagination page number
+
+https://path/to?t[param]=test is parsed into `{param: 'test'}`
+
+#### Constructor
+```typescript
+constructor(limit: number, queryParams?: Observable<any>)
+```
+`limit`: items per page
+
+`queryParams` — query Observable, e.g. Angular ActivatedRoute.queryParams. 
+Optional, sets `query$` property. 
+If omitted, the filter will be updated via internal observable `update$`.
+
+#### Public properties
+
+##### updated$: Observable
+readonly. Triggers when filter is being updated.
+
+##### query$: Observable
+readonly. Observes query params or internal changes.
+
+##### page: number
+Current pagination page. Updates from query string
+
+##### limit: number
+items per page.
+
+##### offset: number
+getter for current pagination offset: `page * limit`.
+
+#### Public methods
+
+##### clear(): void
+clears all filter properties and changes the page to first.
+
+##### changePage(pageIndex: number): void
+changes filter page to `pageIndex`
+
+##### updated(): void
+triggers filter update
+
+##### toJSON(): Record
+returns a record of filter properties decorated with `@FilterProperty`
+
+##### toQueryParams(): Record
+returns a record of filter properties decorated with `@FilterProperty` for angular router, excluding limit
+
+#### Protected methods
+
+##### transformParams(): void
+default query params transformation
+
+##### deleteProperties(): void
+default filter properties deletion
+
+### Decorators
+
+#### @FilterProperty(serialize?: SerializeFn): PropertyDecorator
+Declares filter property which will be updated from query string.
+
+Optionally in `serialize` there can be transformation for query param.
+
+```typescript
+@FilterProperty((v?: number) => v?.toString())
+```
+
+#### @TransformBoolean(): PropertyDecorator
+Transforms query param into boolean.
+
+https://path/to?param=true becomes `{param: true}`
+
+#### @TransformArray(): PropertyDecorator
+Transforms query param into an array.
+
+https://path/to?param=test becomes `{param: ['test']}`
+
+#### @TransformMoment(): PropertyDecorator
+Transforms date param into moment.js object.
+
+https://path/to?date=2020-10-10 becomes `{param: Moment}`
+
+
+### QsHttpParams
+Class extending @angular/common/http/HttpParams to pass filter into angular http client.
+
+### Example
+
+```typescript
+this.http.get('api/v1/test', {params: new QsHttpParams(filter.toJSON())});
+```
+
+#### Filter
 ```typescript
 import {BaseFilter} from '@kovalenko/base-filter';
 
@@ -34,13 +140,13 @@ export class TestFilter extends BaseFilter {
 
   @TransformMoment()
   @TransformArray()
-  @FilterProperty((submittedAtFrom: moment.Moment[]) => submittedAtFrom?.map(ts => ts.format('YYYY-MM')))
+  @FilterProperty((v: moment.Moment[]) => v?.map(ts => ts.format('YYYY-MM')))
   submittedAtFrom?: moment.Moment[];
 }
 ```
 
 
-### Service
+#### Service
 ```typescript
 import type {TestFilter} from './test-filter';
 import {QsHttpParams} from '@kovalenko/base-filter';
@@ -61,7 +167,7 @@ export class PersonService {
 ```
 
 
-### Component
+#### Component
 ```typescript
 import {ActivatedRoute} from '@angular/router';
 import {PersonService} from './person.service';
@@ -100,5 +206,5 @@ export class ApplicationListComponent implements OnInit, OnDestroy {
 }
 ```
 
-## API
-API is in d.ts
+## License
+MIT
