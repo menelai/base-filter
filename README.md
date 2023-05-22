@@ -22,21 +22,19 @@ import 'reflect-metadata';
 <table>
   <tr>
   <td>
-  <div style="width:180px">key?
-  
-  string</div>
-</td>
-<td>
-<div style="width:480px">
+  key?
+
+string
+  </td>
+  <td>
   If set then query params will pe parsed from the key in query string. E.g.:
-  
+
   ```typescript
   class MyFilter extends BaseFilter {
     protected static readonly key = 't';
   }
   ```
-</div>
-</td>
+  </td>
   </tr>
 
   <tr>
@@ -54,13 +52,14 @@ import 'reflect-metadata';
 
 <table>
   <tr>
-  <td><div style="width:180px">
-  limit<br>number</div>
+  <td>
+  limit
+
+number
   </td>
-<td>
-<div style="width:480px">
-items per page</div>
-</td>
+  <td>
+  items per page
+  </td>
   </tr>
 
   <tr>
@@ -69,10 +68,10 @@ items per page</div>
 
 Observable
   </td>
-  <td><div style="width:480px">
+  <td>
   query Observable, e.g. Angular ActivatedRoute.queryParams. 
 Optional, sets `query$` property. 
-If omitted, the filter will be updated via internal observable `update$`</div>
+If omitted, the filter will be updated via internal observable `update$`
   </td>
   </tr>
 </table>
@@ -81,11 +80,13 @@ If omitted, the filter will be updated via internal observable `update$`</div>
 
 <table>
   <tr>
-  <td><div style="width:180px">
-  updated$<br>Observable</div>
+  <td>
+  updated$
+
+Observable
   </td>
-  <td><div style="width:480px">
-  readonly. Triggers when filter is being updated.</div>
+  <td>
+  readonly. Triggers when filter is being updated.
   </td>
   </tr>
 
@@ -139,9 +140,7 @@ number
 
 <table>
 <tr>
-<th colspan="2">
-clear
-</th>
+<th colspan="2">clear</th>
 </tr>
 <tr>
 <td colspan="2">Clears all filter properties and changes the page to first</td>
@@ -156,9 +155,10 @@ clear
 <tr>
 <td colspan="2">void</td>
 </tr>
-<tr>
-<th colspan="2">&nbsp;<br>&nbsp;</th>
-</tr>
+</table>
+
+
+<table>
 <tr>
 <th colspan="2">changePage</th>
 </tr>
@@ -169,7 +169,7 @@ clear
 <th colspan="2">Parameters</th>
 </tr>
 <tr>
-<td><div style="width:180px">pageIndex?<br>number</div></td><td><div style="width:480px">Index</div></td>
+<td>pageIndex?<br>number</td><td>Index</td>
 </tr>
 <tr>
 <th colspan="2">Returns</th>
@@ -177,9 +177,9 @@ clear
 <tr>
 <td colspan="2">void</td>
 </tr>
-<tr>
-<th colspan="2">&nbsp;</th>
-</tr>
+</table>
+
+<table>
 <tr>
 <th colspan="2">updated</th>
 </tr>
@@ -196,9 +196,9 @@ clear
 <tr>
 <td colspan="2">void</td>
 </tr>
-<tr>
-<th colspan="2">&nbsp;<br>&nbsp;</th>
-</tr>
+</table>
+
+<table>
 <tr>
 <th colspan="2">toJSON</th>
 </tr>
@@ -215,9 +215,9 @@ clear
 <tr>
 <td colspan="2">Record&lt;string, any&gt;</td>
 </tr>
-<tr>
-<th colspan="2">&nbsp;<br>&nbsp;</th>
-</tr>
+</table>
+
+<table>
 <tr>
 <th colspan="2">toQueryParams</th>
 </tr>
@@ -256,9 +256,9 @@ clear
 <tr>
 <td colspan="2">void</td>
 </tr>
-<tr>
-<th colspan="2">&nbsp;<br>&nbsp;</th>
-</tr>
+</table>
+
+<table>
 <tr>
 <th colspan="2">deleteProperties</th>
 </tr>
@@ -281,10 +281,10 @@ clear
 
 <table>
   <tr>
-  <td><div style="width:180px">
-  @FilterProperty(serialize?: SerializeFn)<br>PropertyDecorator</div>
+  <td>
+  @FilterProperty(serialize?: SerializeFn)<br>PropertyDecorator
   </td>
-  <td><div style="width:480px">
+  <td>
   If set then query params will pe parsed from the key in query string. E.g.:
 
   ```typescript
@@ -292,7 +292,6 @@ clear
     protected static readonly key = 't';
   }
   ```
-  </div>
   </td>
   </tr>
 
