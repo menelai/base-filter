@@ -8,7 +8,8 @@
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "base-filter:prod": "ng build base-filter --configuration production",
-    "base-filter:publish": "cd dist/base-filter && npm publish --access=public"
+    "base-filter:publish": "cd dist/base-filter && npm publish --access=public",
+    "pack": "copyfiles README.md CHANGELOG.md dist/base-filter"
   },
   "private": true,
   "dependencies": {
