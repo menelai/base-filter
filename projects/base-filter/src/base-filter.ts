@@ -7,9 +7,8 @@ import {SerializeFn} from './serialize-fn';
 export class BaseFilter {
   /**
    * Optional array of possible page sizes
-   * @protected
    */
-  protected static readonly limitOptions?: number[];
+  static readonly limitOptions?: number[];
 
   /**
    * query string combining key
