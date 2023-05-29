@@ -167,7 +167,7 @@ export class BaseFilter {
   toQueryParams(): Record<string, any> {
     return [...(this.constructor as any).deletableProperties].reduce((ret, key: keyof this) => {
       const serializeFn = (this.constructor as any).serializeField.get(key);
-      ret[key] = serializeFn ? serializeFn(this[key], this) : this[key];
+      ret[(this.constructor as any).key ? `${(this.constructor as any).key}[${key as string}]` : key] = serializeFn ? serializeFn(this[key], this) : this[key];
 
       return ret;
     }, {});
@@ -188,6 +188,9 @@ export class BaseFilter {
    */
   protected transformParams(): void {
     this.queryParams = parse(location.search.slice(1));
+    if ((this.constructor as any).key) {
+      this.queryParams = this.queryParams[(this.constructor as any).key] ?? {};
+    }
     this.deleteProperties();
 
     this.page = Number(this.queryParams.page) || (this.constructor as any).defaultPage;

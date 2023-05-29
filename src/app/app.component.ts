@@ -29,9 +29,15 @@ export class AppComponent implements OnInit {
       this.router.navigate([], {queryParams: f.toQueryParams()});
     });
 
+
     setTimeout(() => {
       this.frontFilter.page = 3;
       this.frontFilter.updated();
     }, 1000);
+
+    setTimeout(() => {
+      this.frontFilter.title = 'joj';
+      this.frontFilter.updated();
+    }, 2000);
   }
 }

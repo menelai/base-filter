@@ -2,10 +2,11 @@ import { BaseFilter, FilterProperty, TransformBoolean, TransformArray, Transform
 import {Type} from 'class-transformer';
 import moment from "moment";
 
+
 export class TestFilter extends BaseFilter {
+  static override readonly limitOptions = [10, 20];
 
-  protected static override readonly limitOptions = [10, 20];
-
+  // protected static override readonly key = 'joj';
   @FilterProperty()
   title?: string;
 
