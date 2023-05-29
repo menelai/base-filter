@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {TestFilter} from './test-filter';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
+import {skip} from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -10,10 +11,11 @@ import {ActivatedRoute} from '@angular/router';
 export class AppComponent implements OnInit {
   title = 'base-filter-test';
 
-  frontFilter = new TestFilter(50, this.route.queryParams);
+  frontFilter = new TestFilter(20, this.route.queryParams);
 
   constructor(
     private route: ActivatedRoute,
+    private router: Router,
   ) { }
 
   ngOnInit() {
@@ -22,9 +24,14 @@ export class AppComponent implements OnInit {
     });
 
     this.frontFilter.updated$.pipe(
+      skip(1),
     ).subscribe(f => {
-      console.log(f.toQueryParams());
-      console.log(f.qsStringify());
+      this.router.navigate([], {queryParams: f.toQueryParams()});
     });
+
+    setTimeout(() => {
+      this.frontFilter.page = 3;
+      this.frontFilter.updated();
+    }, 1000);
   }
 }

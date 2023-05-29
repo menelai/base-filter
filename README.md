@@ -45,6 +45,17 @@ string
   Default pagination page number
   </td>
   </tr>
+
+ <tr>
+  <td>
+  limitOptions?
+
+number[]
+  </td>
+  <td>
+  Options for items per page, e.g. [10, 20, 30]
+  </td>
+  </tr>
 </table>
 
 

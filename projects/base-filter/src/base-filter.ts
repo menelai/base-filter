@@ -6,6 +6,12 @@ import {SerializeFn} from './serialize-fn';
 
 export class BaseFilter {
   /**
+   * Optional array of possible page sizes
+   * @protected
+   */
+  protected static readonly limitOptions?: number[];
+
+  /**
    * query string combining key
    * @protected
    */
@@ -37,6 +43,13 @@ export class BaseFilter {
   page = (this.constructor as any).defaultPage;
 
   /**
+   * filter page property
+   */
+  @Type(() => Number)
+  @FilterProperty((limit?: number, ths?: any) => ths?.constructor.limitOptions ? (limit?.toString() ?? null) : null)
+  limit: number;
+
+  /**
    * Observable.
    * Triggers when filter is updated
    */
@@ -50,7 +63,7 @@ export class BaseFilter {
   /**
    * Items per page
    */
-  limit: number;
+  defaultLimit!: number;
 
   protected queryParams: any;
 
@@ -73,7 +86,18 @@ export class BaseFilter {
    * @param queryParams — query Observable, e.g. Angular ActivatedRoute.queryParams. Optional
    */
   constructor(limit: number, queryParams?: Observable<any>) {
+    if (limit !== undefined && (this.constructor as any).limitOptions && !(this.constructor as any).limitOptions.includes(limit)) {
+      throw new Error(`invalid limit: ${this.constructor.name} ${limit}: expected ${(this.constructor as any).limitOptions.join(', ')}`);
+    }
+
+    Object.defineProperty(this, 'defaultLimit', {
+      writable: true,
+      enumerable: false,
+      value: limit,
+    });
+
     this.limit = limit;
+
     Object.defineProperty(this, 'updated$', {
       value: new BehaviorSubject(this),
     });
@@ -170,7 +194,7 @@ export class BaseFilter {
     this.page = Number(this.queryParams.page) || (this.constructor as any).defaultPage;
 
     const params = {...this.queryParams} as Record<any, any>;
-    params['limit'] = this.limit;
+    params['limit'] = (this.constructor as any).limitOptions && (this.constructor as any).limitOptions.includes(Number(params['limit'])) ? Number(params['limit']) : this.defaultLimit;
 
     const joj = plainToClass(this.constructor as any, params, {enableImplicitConversion: true});
 

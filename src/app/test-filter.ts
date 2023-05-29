@@ -3,6 +3,9 @@ import {Type} from 'class-transformer';
 import moment from "moment";
 
 export class TestFilter extends BaseFilter {
+
+  protected static override readonly limitOptions = [10, 20];
+
   @FilterProperty()
   title?: string;
 
