@@ -1,3 +1,10 @@
+## [1.1.2](https://github.com/menelai/base-filter/compare/v1.1.1...v1.1.2) (2023-05-29)
+
+
+### Bug Fixes
+
+* keyed params ([1dd4442](https://github.com/menelai/base-filter/commit/1dd4442cb692b5566a78fb059495fb3a00230375))
+
 ## [1.1.1](https://github.com/menelai/base-filter/compare/v1.1.0...v1.1.1) (2023-05-29)
 
 
