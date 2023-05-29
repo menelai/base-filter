@@ -1,3 +1,10 @@
+# [1.1.0](https://github.com/menelai/base-filter/compare/v1.0.0...v1.1.0) (2023-05-29)
+
+
+### Features
+
+* Limit options ([67aae20](https://github.com/menelai/base-filter/commit/67aae20eed335a6609e65cb2a55aad8cf2ac7d49))
+
 # 1.0.0 (2023-05-22)
 
 
