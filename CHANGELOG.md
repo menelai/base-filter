@@ -1,3 +1,10 @@
+## [1.1.3](https://github.com/menelai/base-filter/compare/v1.1.2...v1.1.3) (2023-05-29)
+
+
+### Bug Fixes
+
+* serialization with key ([f278182](https://github.com/menelai/base-filter/commit/f278182fee301d35d77af4b31d72e9f0781ff2ce))
+
 ## [1.1.2](https://github.com/menelai/base-filter/compare/v1.1.1...v1.1.2) (2023-05-29)
 
 
