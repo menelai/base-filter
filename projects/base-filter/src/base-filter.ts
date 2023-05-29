@@ -156,7 +156,7 @@ export class BaseFilter {
    */
   toJSON(): Record<string, any> {
     return {
-      ...this.toQueryParams(),
+      ...this.serialize(),
       limit: this.limit,
     }
   }
@@ -165,12 +165,13 @@ export class BaseFilter {
    * Convert for angular router
    */
   toQueryParams(): Record<string, any> {
-    return [...(this.constructor as any).deletableProperties].reduce((ret, key: keyof this) => {
-      const serializeFn = (this.constructor as any).serializeField.get(key);
-      ret[(this.constructor as any).key ? `${(this.constructor as any).key}[${key as string}]` : key] = serializeFn ? serializeFn(this[key], this) : this[key];
+    const ret = this.serialize();
 
-      return ret;
-    }, {});
+    return !(this.constructor as any).key ? ret : Object.entries(ret).reduce((r, [key, value]) => {
+      r[`${(this.constructor as any).key}[${key as string}]`] = value;
+      return r;
+    }, {} as Record<string, any>);
+
   }
 
   /**
@@ -211,5 +212,14 @@ export class BaseFilter {
     (this.constructor as any).deletableProperties.forEach((property: string) => {
       delete (this as any)[property];
     });
+  }
+
+  protected serialize(): Record<string, any> {
+    return [...(this.constructor as any).deletableProperties].reduce((ret, key: keyof this) => {
+      const serializeFn = (this.constructor as any).serializeField.get(key);
+      ret[key] = serializeFn ? serializeFn(this[key], this) : this[key];
+
+      return ret;
+    }, {});
   }
 }

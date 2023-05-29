@@ -26,6 +26,7 @@ export class AppComponent implements OnInit {
     this.frontFilter.updated$.pipe(
       skip(1),
     ).subscribe(f => {
+      console.log(f.toJSON());
       this.router.navigate([], {queryParams: f.toQueryParams()});
     });
 
