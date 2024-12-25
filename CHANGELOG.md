@@ -1,3 +1,10 @@
+# [1.2.0](https://github.com/menelai/base-filter/compare/v1.1.3...v1.2.0) (2024-12-25)
+
+
+### Features
+
+* isEmpty getter ([3a8cb8d](https://github.com/menelai/base-filter/commit/3a8cb8d0e67b52481915cfc5169366a85c2201a5))
+
 ## [1.1.3](https://github.com/menelai/base-filter/compare/v1.1.2...v1.1.3) (2023-05-29)
 
 
