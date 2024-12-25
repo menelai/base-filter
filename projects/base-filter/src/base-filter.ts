@@ -83,7 +83,9 @@ export class BaseFilter {
    * No properties changed
    */
   get isEmpty(): boolean {
-    return [...(this.constructor as any).deletableProperties].every((property: string) => (this as any)[property] == null);
+    return [...(this.constructor as any).deletableProperties]
+      .filter((property: string) => property !== 'page' && property !== 'limit')
+      .every((property: string) => (this as any)[property] == null);
   }
 
   /**
