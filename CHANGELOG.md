@@ -1,3 +1,10 @@
+## [1.2.2](https://github.com/menelai/base-filter/compare/v1.2.1...v1.2.2) (2024-12-25)
+
+
+### Bug Fixes
+
+* isEmpty fix ([9c10e43](https://github.com/menelai/base-filter/commit/9c10e438eca4da1d0db00b65707cce69505c4387))
+
 ## [1.2.1](https://github.com/menelai/base-filter/compare/v1.2.0...v1.2.1) (2024-12-25)
 
 
