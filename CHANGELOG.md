@@ -1,3 +1,10 @@
+# [1.3.0](https://github.com/menelai/base-filter/compare/v1.2.3...v1.3.0) (2025-09-30)
+
+
+### Features
+
+* transform luxon ([d42b247](https://github.com/menelai/base-filter/commit/d42b247d717fb4e80805ffc2529ec1bf299cf63c))
+
 ## [1.2.3](https://github.com/menelai/base-filter/compare/v1.2.2...v1.2.3) (2024-12-25)
 
 
