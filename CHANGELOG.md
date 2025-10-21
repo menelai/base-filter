@@ -1,3 +1,10 @@
+## [1.3.1](https://github.com/menelai/base-filter/compare/v1.3.0...v1.3.1) (2025-10-21)
+
+
+### Bug Fixes
+
+* share replay query$ ([a48cb52](https://github.com/menelai/base-filter/commit/a48cb5229473474f936d665bb80759aa2777825f))
+
 # [1.3.0](https://github.com/menelai/base-filter/compare/v1.2.3...v1.3.0) (2025-09-30)
 
 
