@@ -1,5 +1,5 @@
 import {plainToClass, Type} from 'class-transformer';
-import {BehaviorSubject, Observable, map, filter} from 'rxjs';
+import {BehaviorSubject, Observable, map, filter, shareReplay} from 'rxjs';
 import {stringify, parse} from 'qs';
 import {FilterProperty} from './decorators/filter-property';
 import {SerializeFn} from './serialize-fn';
@@ -124,6 +124,7 @@ export class BaseFilter {
 
           return false;
         }),
+        shareReplay(1),
       ) : this.updated$,
     });
     Object.defineProperty(this, 'queryParams', {
