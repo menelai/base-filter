@@ -1,7 +1,6 @@
-import {plainToClass, Type} from 'class-transformer';
+import {plainToClass} from 'class-transformer';
 import {BehaviorSubject, Observable, map, filter, shareReplay} from 'rxjs';
 import {stringify, parse} from 'qs';
-import {FilterProperty} from './decorators/filter-property';
 import {SerializeFn} from './serialize-fn';
 
 export class BaseFilter {
@@ -37,15 +36,11 @@ export class BaseFilter {
   /**
    * filter page property
    */
-  @Type(() => Number)
-  @FilterProperty((page: number, ths?: any) => page === ths?.constructor.defaultPage ? null : page.toString())
   page = (this.constructor as any).defaultPage;
 
   /**
    * filter page property
    */
-  @Type(() => Number)
-  @FilterProperty((limit?: number, ths?: any) => ths?.constructor.limitOptions ? (limit?.toString() ?? null) : null)
   limit: number;
 
   /**
@@ -84,7 +79,6 @@ export class BaseFilter {
    */
   get isEmpty(): boolean {
     return [...(this.constructor as any).deletableProperties]
-      .filter((property: string) => property !== 'page' && property !== 'limit')
       .every((property: string) => (this as any)[property] == null);
   }
 
@@ -204,8 +198,6 @@ export class BaseFilter {
     }
     this.deleteProperties();
 
-    this.page = Number(this.queryParams.page) || (this.constructor as any).defaultPage;
-
     const params = {...this.queryParams} as Record<any, any>;
     Object.keys(params).forEach(param => {
       if (!(this.constructor as any).deletableProperties.has(param)) {
@@ -213,7 +205,10 @@ export class BaseFilter {
       }
     });
 
-    params['limit'] = (this.constructor as any).limitOptions && (this.constructor as any).limitOptions.includes(Number(params['limit'])) ? Number(params['limit']) : this.defaultLimit;
+    this.page = Number(this.queryParams.page) || (this.constructor as any).defaultPage;
+    params['limit'] = (this.constructor as any).limitOptions && (this.constructor as any).limitOptions.includes(Number(params['limit']))
+      ? Number(params['limit'])
+      : this.defaultLimit;
 
     const joj = plainToClass(this.constructor as any, params, {enableImplicitConversion: true});
 
@@ -231,11 +226,17 @@ export class BaseFilter {
   }
 
   protected serialize(): Record<string, any> {
-    return [...(this.constructor as any).deletableProperties].reduce((ret, key: keyof this) => {
-      const serializeFn = (this.constructor as any).serializeField.get(key);
-      ret[key] = serializeFn ? serializeFn(this[key], this) : this[key];
+    return [...(this.constructor as any).deletableProperties].reduce(
+      (ret, key: keyof this) => {
+        const serializeFn = (this.constructor as any).serializeField.get(key);
+        ret[key] = serializeFn ? serializeFn(this[key], this) : this[key];
 
-      return ret;
-    }, {});
+        return ret;
+      },
+      {
+        page: (this.constructor as any).defaultPage === this.page ? null : this.page.toString(),
+        limit: (this.constructor as any).limitOptions ? (this.limit?.toString() ?? null) : null,
+      }
+    );
   }
 }
