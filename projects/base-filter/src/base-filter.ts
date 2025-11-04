@@ -205,14 +205,14 @@ export class BaseFilter {
       }
     });
 
-    this.page = Number(this.queryParams.page) || (this.constructor as any).defaultPage;
-    params['limit'] = (this.constructor as any).limitOptions && (this.constructor as any).limitOptions.includes(Number(params['limit']))
-      ? Number(params['limit'])
-      : this.defaultLimit;
-
     const joj = plainToClass(this.constructor as any, params, {enableImplicitConversion: true});
 
     Object.assign(this, joj);
+
+    this.page = Number(this.queryParams.page) || (this.constructor as any).defaultPage;
+    this.limit = (this.constructor as any).limitOptions && (this.constructor as any).limitOptions.includes(Number(params['limit']))
+      ? Number(params['limit'])
+      : this.defaultLimit;
   }
 
   /**
