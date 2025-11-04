@@ -1,3 +1,10 @@
+## [1.3.5](https://github.com/menelai/base-filter/compare/v1.3.4...v1.3.5) (2025-11-04)
+
+
+### Bug Fixes
+
+* handle page and limit ([044698d](https://github.com/menelai/base-filter/commit/044698de64557f75bbfe9bf1ca74e47ecb633297))
+
 ## [1.3.4](https://github.com/menelai/base-filter/compare/v1.3.3...v1.3.4) (2025-11-04)
 
 
