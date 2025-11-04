@@ -1,3 +1,10 @@
+## [1.3.3](https://github.com/menelai/base-filter/compare/v1.3.2...v1.3.3) (2025-11-04)
+
+
+### Bug Fixes
+
+* own static fields ([a7202c3](https://github.com/menelai/base-filter/commit/a7202c336cc486b2896ef7ac6d00e5984224e21c))
+
 ## [1.3.2](https://github.com/menelai/base-filter/compare/v1.3.1...v1.3.2) (2025-11-04)
 
 
