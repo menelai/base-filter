@@ -20,13 +20,13 @@ export class BaseFilter {
    * fields to update from query string
    * @protected
    */
-  protected static readonly deletableProperties = new Set<symbol | string>();
+  private static readonly deletableProperties: Set<symbol | string>;
 
   /**
    * how to serialize
    * @protected
    */
-  protected static readonly serializeField = new Map<keyof BaseFilter, SerializeFn>();
+  private static readonly serializeField: Map<keyof BaseFilter, SerializeFn>;
 
   /**
    * default page in pagination

@@ -7,9 +7,9 @@ import {SerializeFn} from '../serialize-fn';
  */
 export function FilterProperty(serialize?: SerializeFn): PropertyDecorator {
   return (object: any, propertyName: string | symbol): void => {
-    if (object.constructor.deletableProperties == null) {
-      console.log('No static field `deletableProperties`');
-    }
+    object.constructor.deletableProperties ??= new Set();
+    object.constructor.serializeField ??= new Set();
+
     object.constructor.deletableProperties.add(propertyName);
 
     if (serialize) {
