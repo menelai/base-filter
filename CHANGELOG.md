@@ -1,3 +1,10 @@
+## [1.3.2](https://github.com/menelai/base-filter/compare/v1.3.1...v1.3.2) (2025-11-04)
+
+
+### Bug Fixes
+
+* delete non-listed params ([8f27427](https://github.com/menelai/base-filter/commit/8f2742772be7b471a78850843a533f6cbc3202a9))
+
 ## [1.3.1](https://github.com/menelai/base-filter/compare/v1.3.0...v1.3.1) (2025-10-21)
 
 
