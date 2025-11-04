@@ -1,3 +1,10 @@
+## [1.3.4](https://github.com/menelai/base-filter/compare/v1.3.3...v1.3.4) (2025-11-04)
+
+
+### Bug Fixes
+
+* serializeField map ([547580f](https://github.com/menelai/base-filter/commit/547580f6abf431ba6550ac833ef95af3a3bb95a7))
+
 ## [1.3.3](https://github.com/menelai/base-filter/compare/v1.3.2...v1.3.3) (2025-11-04)
 
 
