@@ -1,3 +1,10 @@
+## [2.0.1](https://github.com/menelai/base-filter/compare/v2.0.0...v2.0.1) (2026-04-28)
+
+
+### Bug Fixes
+
+* readme ([f97f990](https://github.com/menelai/base-filter/commit/f97f9906c336487051c6e4d42fb628a251711940))
+
 # [2.0.0](https://github.com/menelai/base-filter/compare/v1.3.6...v2.0.0) (2026-04-28)
 
 
