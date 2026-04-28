@@ -6,97 +6,108 @@
 npm i @kovalenko/base-filter
 ```
 
-## Setup
-
-add import to polyfills.ts
-```typescript
-import 'reflect-metadata';
-```
-
 ## Usage
 
 ### Filter
 ```typescript
-import {BaseFilter} from '@kovalenko/base-filter';
+import {computed, signal} from '@angular/core';
+import {debounce, SchemaFn} from '@angular/forms/signals';
+import {BaseSignalFilter, FilterProperty, TransformArray, TransformBoolean} from '@kovalenko/base-filter';
 
-export class TestFilter extends BaseFilter {
-  @FilterProperty()
-  title?: string;
+export class ListFilter extends BaseSignalFilter {
+  static override schema: SchemaFn<ListFilter> = (path) => {
+    debounce(path.n, 300);
+  };
+
+  @TransformArray()
+  id: string[] = [];
 
   @FilterProperty()
+  n = '';
+
+  @TransformArray()
+  t: string[] = [];
+
   @TransformBoolean()
-  hasParticipants?: boolean;
+  r: boolean | null = null;
 
-  @Type(() => Number)
-  @TransformArray()
-  @FilterProperty()
-  campaign?: number[];
+  override readonly key = signal('d').asReadonly();
 
-  @TransformMoment()
-  @TransformArray()
-  @FilterProperty((submittedAtFrom: moment.Moment[]) => submittedAtFrom?.map(ts => ts.format('YYYY-MM')))
-  submittedAtFrom?: moment.Moment[];
+  override readonly serialized = computed(() => ({
+    ...this.serialize(),
+    t: this.type ?? this.editable().t,
+    haveReport: this.haveReport,
+  }));
+
+  type?: string[];
+
+  haveReport?: boolean;
 }
 ```
-
-
-### Service
-```typescript
-import type {TestFilter} from './test-filter';
-import {QsHttpParams} from '@kovalenko/base-filter';
-
-@Injectable()
-export class PersonService {
-
-  constructor(
-    private http: HttpClient,
-  ) { }
-
-  list(flt: TestFilter): Observable<any> {
-    return this.http.get('api/v1/test', {
-      params: new QsHttpParams(flt.toJSON()),
-    });
-  }
-}
-```
-
 
 ### Component
 ```typescript
-import {ActivatedRoute} from '@angular/router';
-import {PersonService} from './person.service';
-import {TestFilter} from './test-filter';
-
 @Component({
-  selector: 'some-component',
-  template: 'hi',
+  selector: 'app-test',
+  template: '',
 })
-export class ApplicationListComponent implements OnInit, OnDestroy {
-  loading = false;
+export class ListRouteComponent {
+  readonly filter = new ListFilter(50, inject(ActivatedRoute).queryParams);
 
-  filter = new TestFilter(100, this.route.queryParams);
+  readonly #route = inject(ActivatedRoute);
 
-  constructor(
-    private route: ActivatedRoute,
-    private personService: PersonService,
-  ) { }
+  readonly #router = inject(Router);
 
-  ngOnInit(): void {
-    this.filter.updated$.pipe(
-      skip(1),
-    ).subscribe(f => {
-      this.router.navigate([], {
-        queryParams: f.toQueryParams(),
-        relativeTo: this.route,
-        queryParamsHandling: 'merge',
-      });
+  readonly #d = toSignal(this.#route.queryParams.pipe(map(p => p[this.filter.key()])));
+
+  constructor() {
+    effect(() => {
+      this.#router.navigate(
+        [],
+        {
+          queryParams: typeof this.#d() === 'string'
+            ? {[this.filter.key()]: null}
+            : this.filter.q(),
+          relativeTo: this.#route,
+          queryParamsHandling: 'merge',
+        },
+      );
     });
-
-    this.filter.query$.pipe(
-      tap(() => this.loading = true),
-      switchMap(f => this.personService.list(f)),
-    ).subscribe();
   }
+}
+```
+
+```typescript
+@UntilDestroy()
+@Component({
+  selector: 'app-table',
+  template: '',
+})
+export class TableComponent {
+  readonly filter = input.required<ListFilter>();
+
+  readonly busy = signal(false);
+
+  readonly #service = inject(Service);
+
+  #subs?: Subscription;
+
+  constructor() {
+    effect(this.#list);
+  }
+
+  readonly #list = (): void => {
+    this.busy.set(true);
+
+    this.#subs?.unsubscribe();
+
+    this.#subs = this.#service
+      .list(this.filter().qsQueryParams())
+      .pipe(
+        untilDestroyed(this),
+      )
+      .subscribe();
+  };
 }
 ```
 
