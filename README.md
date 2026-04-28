@@ -1,4 +1,11 @@
-# BaseFilter
+# @kovalenko/base-filter
+
+Signal-based Angular filter that syncs with URL query params via `qs`.
+
+## Requirements
+
+- Angular >= 21
+- `@angular/forms/signals` (experimental signals-based forms API)
 
 ## Install
 
@@ -6,435 +13,294 @@
 npm i @kovalenko/base-filter
 ```
 
-## Setup
+Peer dependencies:
 
-add import to polyfills.ts
-```typescript
-import 'reflect-metadata';
+```shell
+npm i qs
 ```
 
-## Usage
+## Overview
 
-### Class `BaseFilter`
+`BaseSignalFilter` is a base class for typed URL filters. It:
 
-#### Protected static properties
+- reads query params from the URL (via `qs`) and populates filter fields
+- serializes filter state back to query params
+- integrates with `@angular/forms/signals` for reactive form binding
+- tracks `page` and `limit` automatically
+- exposes computed signals for use in components and HTTP requests
 
-<table>
-  <tr>
-  <td>
-  key?
+## Basic usage
 
-string
-  </td>
-  <td>
-  If set then query params will pe parsed from the key in query string. E.g.:
-
-  ```typescript
-  class MyFilter extends BaseFilter {
-    protected static readonly key = 't';
-  }
-  ```
-  </td>
-  </tr>
-
-  <tr>
-  <td>
-  defaultPage = 1
-  </td>
-  <td>
-  Default pagination page number
-  </td>
-  </tr>
-
- <tr>
-  <td>
-  limitOptions?
-
-number[]
-  </td>
-  <td>
-  Options for items per page, e.g. [10, 20, 30]
-  </td>
-  </tr>
-</table>
-
-
-#### Constructor
-
-<table>
-  <tr>
-  <td>
-  limit
-
-number
-  </td>
-  <td>
-  items per page
-  </td>
-  </tr>
-
-  <tr>
-  <td>
-  queryParams?
-
-Observable
-  </td>
-  <td>
-  query Observable, e.g. Angular ActivatedRoute.queryParams. 
-Optional, sets `query$` property. 
-If omitted, the filter will be updated via internal observable `update$`
-  </td>
-  </tr>
-</table>
-
-#### Public properties
-
-<table>
-  <tr>
-  <td>
-  updated$
-
-Observable
-  </td>
-  <td>
-  readonly. Triggers when filter is being updated.
-  </td>
-  </tr>
-
-  <tr>
-  <td>
-  query$
-
-Observable
-  </td>
-  <td>
-  readonly. Observes query params or internal changes.
-  </td>
-  </tr>
-
-  <tr>
-  <td>
-  page
-
-number
-  </td>
-  <td>
-  Current pagination page. Updates from query string
-  </td>
-  </tr>
-  <tr>
-  <td>
-  limit
-
-number
-  </td>
-  <td>
-  items per page
-  </td>
-  </tr>
-
-  <tr>
-  <td>
-  offset
-
-number
-  </td>
-  <td>
-  getter for current pagination offset: `page * limit`
-  </td>
-  </tr>
-
-</table>
-
-
-#### Public methods
-
-<table>
-<tr>
-<th colspan="2">clear</th>
-</tr>
-<tr>
-<td colspan="2">Clears all filter properties and changes the page to first</td>
-</tr>
-<tr>
-<th colspan="2">Parameters</th>
-</tr>
-<td colspan="2">No</td>
-<tr>
-<th colspan="2">Returns</th>
-</tr>
-<tr>
-<td colspan="2">void</td>
-</tr>
-</table>
-
-
-<table>
-<tr>
-<th colspan="2">changePage</th>
-</tr>
-<tr>
-<td colspan="2">Changes filter page</td>
-</tr>
-<tr>
-<th colspan="2">Parameters</th>
-</tr>
-<tr>
-<td>pageIndex?<br>number</td><td>Index</td>
-</tr>
-<tr>
-<th colspan="2">Returns</th>
-</tr>
-<tr>
-<td colspan="2">void</td>
-</tr>
-</table>
-
-<table>
-<tr>
-<th colspan="2">updated</th>
-</tr>
-<tr>
-<td colspan="2">Triggers filter update</td>
-</tr>
-<tr>
-<th colspan="2">Parameters</th>
-</tr>
-<td colspan="2">No</td>
-<tr>
-<th colspan="2">Returns</th>
-</tr>
-<tr>
-<td colspan="2">void</td>
-</tr>
-</table>
-
-<table>
-<tr>
-<th colspan="2">toJSON</th>
-</tr>
-<tr>
-<td colspan="2">Returns a record of filter properties decorated with `@FilterProperty`</td>
-</tr>
-<tr>
-<th colspan="2">Parameters</th>
-</tr>
-<td colspan="2">No</td>
-<tr>
-<th colspan="2">Returns</th>
-</tr>
-<tr>
-<td colspan="2">Record&lt;string, any&gt;</td>
-</tr>
-</table>
-
-<table>
-<tr>
-<th colspan="2">toQueryParams</th>
-</tr>
-<tr>
-<td colspan="2">Returns a record of filter properties decorated with `@FilterProperty` for angular router, excluding limit</td>
-</tr>
-<tr>
-<th colspan="2">Parameters</th>
-</tr>
-<td colspan="2">No</td>
-<tr>
-<th colspan="2">Returns</th>
-</tr>
-<tr>
-<td colspan="2">Record&lt;string, any&gt;</td>
-</tr>
-</table>
-
-
-#### Protected methods
-
-<table>
-<tr>
-<th colspan="2">transformParams</th>
-</tr>
-<tr>
-<td colspan="2">default query params transformation</td>
-</tr>
-<tr>
-<th colspan="2">Parameters</th>
-</tr>
-<td colspan="2">No</td>
-<tr>
-<th colspan="2">Returns</th>
-</tr>
-<tr>
-<td colspan="2">void</td>
-</tr>
-</table>
-
-<table>
-<tr>
-<th colspan="2">deleteProperties</th>
-</tr>
-<tr>
-<td colspan="2">default filter properties deletion</td>
-</tr>
-<tr>
-<th colspan="2">Parameters</th>
-</tr>
-<td colspan="2">No</td>
-<tr>
-<th colspan="2">Returns</th>
-</tr>
-<tr>
-<td colspan="2">void</td>
-</tr>
-</table>
-
-### Decorators
-
-<table>
-  <tr>
-  <td>
-  @FilterProperty(serialize?: SerializeFn)<br>PropertyDecorator
-  </td>
-  <td>
-  If set then query params will pe parsed from the key in query string. E.g.:
-
-  ```typescript
-  class MyFilter extends BaseFilter {
-    protected static readonly key = 't';
-  }
-  ```
-  </td>
-  </tr>
-
-  <tr>
-  <td>
-  @TransformBoolean()<br>PropertyDecorator
-  </td>
-  <td>
-  Transforms query param into boolean
-
-https://path/to?param=true becomes `{param: true}`
-  </td>
-  </tr>
-
-  <tr>
-  <td>
-  @TransformArray()<br>PropertyDecorator
-  </td>
-  <td>
-  Transforms query param into boolean
-
-https://path/to?param=test becomes `{param: ['test']}`
-  </td>
-  </tr>  
-
-
-  <tr>
-  <td>
-  @TransformMoment()<br>PropertyDecorator
-  </td>
-  <td>
-Transforms date param into moment.js object.
-
-https://path/to?date=2020-10-10 becomes `{param: Moment}`
-  </td>
-  </tr>  
-</table>
-
-### Class `QsHttpParams`
-Class extending `@angular/common/http/HttpParams` to pass filter into angular http client.
+### 1. Define a filter class
 
 ```typescript
-this.http.get('api/v1/test', {params: new QsHttpParams(filter.toJSON())});
-```
+import {computed, signal} from '@angular/core';
+import {debounce, SchemaFn} from '@angular/forms/signals';
+import {
+  BaseSignalFilter,
+  FilterProperty,
+  TransformArray,
+  TransformBoolean,
+  TransformNumber,
+} from '@kovalenko/base-filter';
 
+export class ListFilter extends BaseSignalFilter {
+  // Optional: configure field-level form schema (e.g. debounce)
+  static override schema: SchemaFn<ListFilter> = (path) => {
+    debounce(path.name, 300);
+  };
 
-### Example
+  // Registered as a filter field, parsed as string[]
+  @TransformArray()
+  ids: string[] = [];
 
-#### Filter
-```typescript
-import {BaseFilter} from '@kovalenko/base-filter';
-
-export class TestFilter extends BaseFilter {
+  // Registered as a filter field, plain string (with 300ms debounce via schema)
   @FilterProperty()
-  title?: string;
+  name = '';
 
-  @FilterProperty()
+  // Parsed as boolean | null ('true' → true, 'false' → false, anything else → null)
   @TransformBoolean()
-  hasParticipants?: boolean;
+  active: boolean | null = null;
 
-  @Type(() => Number)
-  @TransformArray()
-  @FilterProperty()
-  campaign?: number[];
+  // Parsed as number | null
+  @TransformNumber()
+  categoryId: number | null = null;
 
-  @TransformMoment()
-  @TransformArray()
-  @FilterProperty((v: moment.Moment[]) => v?.map(ts => ts.format('YYYY-MM')))
-  submittedAtFrom?: moment.Moment[];
+  // Namespace key: query params will be nested under ?f[ids]=...&f[name]=...
+  override readonly key = signal('f').asReadonly();
+
+  // Override serialized to inject extra fields that aren't filter inputs
+  override readonly serialized = computed(() => ({
+    ...this.serialize(),
+    type: this.fixedType,
+  }));
+
+  // Fields set externally, not from URL
+  fixedType?: string;
 }
 ```
 
+### 2. Use in a route component
 
-#### Service
 ```typescript
-import type {TestFilter} from './test-filter';
-import {QsHttpParams} from '@kovalenko/base-filter';
-
-@Injectable()
-export class PersonService {
-
-  constructor(
-    private http: HttpClient,
-  ) { }
-
-  list(flt: TestFilter): Observable<any> {
-    return this.http.get('api/v1/test', {
-      params: new QsHttpParams(flt.toJSON()),
-    });
-  }
-}
-```
-
-
-#### Component
-```typescript
-import {ActivatedRoute} from '@angular/router';
-import {PersonService} from './person.service';
-import {TestFilter} from './test-filter';
+import {Component, effect, inject} from '@angular/core';
+import {ActivatedRoute, Router} from '@angular/router';
+import {toSignal} from '@angular/core/rxjs-interop';
+import {map} from 'rxjs';
 
 @Component({
-  selector: 'some-component',
-  template: 'hi',
+  selector: 'app-list',
+  template: '',
 })
-export class ApplicationListComponent implements OnInit, OnDestroy {
-  loading = false;
+export class ListRouteComponent {
+  readonly filter = new ListFilter(25, inject(ActivatedRoute).queryParams);
 
-  filter = new TestFilter(100, this.route.queryParams);
+  readonly #route = inject(ActivatedRoute);
+  readonly #router = inject(Router);
 
-  constructor(
-    private route: ActivatedRoute,
-    private personService: PersonService,
-  ) { }
+  // Watch for the filter's namespace key in query params
+  readonly #q = toSignal(
+    this.#route.queryParams.pipe(map(p => p[this.filter.key()])),
+  );
 
-  ngOnInit(): void {
-    this.filter.updated$.pipe(
-      skip(1),
-    ).subscribe(f => {
-      this.router.navigate([], {
-        queryParams: f.toQueryParams(),
-        relativeTo: this.route,
+  constructor() {
+    effect(() => {
+      this.#router.navigate([], {
+        queryParams: typeof this.#q() === 'string'
+          ? {[this.filter.key()]: null}
+          : this.filter.q(),
+        relativeTo: this.#route,
         queryParamsHandling: 'merge',
       });
     });
+  }
+}
+```
 
-    this.filter.query$.pipe(
-      tap(() => this.loading = true),
-      switchMap(f => this.personService.list(f)),
-    ).subscribe();
+### 3. Use in a data component
+
+```typescript
+import {Component, effect, inject, input, signal} from '@angular/core';
+import {Subscription} from 'rxjs';
+
+@Component({
+  selector: 'app-table',
+  template: '',
+})
+export class TableComponent {
+  readonly filter = input.required<ListFilter>();
+  readonly busy = signal(false);
+
+  readonly #service = inject(MyService);
+  #subs?: Subscription;
+
+  constructor() {
+    effect(this.#load);
+  }
+
+  readonly #load = (): void => {
+    this.busy.set(true);
+    this.#subs?.unsubscribe();
+
+    // qsQueryParams() returns an HttpParams-compatible object serialized with qs
+    this.#subs = this.#service
+      .list(this.filter().qsQueryParams())
+      .subscribe(data => {
+        this.busy.set(false);
+        // handle data
+      });
+  };
+}
+```
+
+## Constructor
+
+```typescript
+new ListFilter(defaultLimit, queryParams?)
+```
+
+| Parameter | Type | Description |
+|---|---|---|
+| `defaultLimit` | `number \| undefined` | Default page size. Pass `undefined` to disable pagination. |
+| `queryParams` | `Observable<any>` | Typically `ActivatedRoute.queryParams`. When provided, the filter will reactively parse the URL on every change. |
+
+If `defaultLimit` is provided and `limitOptions` is non-empty, the value must be included in `limitOptions` — otherwise an error is thrown.
+
+## API
+
+### Signals & computed
+
+| Member | Type | Description |
+|---|---|---|
+| `key` | `Signal<string>` | Namespace key for query params. Override to nest params: `?key[field]=value`. Empty string means no nesting. |
+| `page` | `WritableSignal<number>` | Current page. Resets to `defaultPage` (1) on filter change. |
+| `limit` | `WritableSignal<number \| null>` | Current page size. |
+| `limitOptions` | `Signal<number[]>` | Override to restrict allowed page sizes. |
+| `editable` | `WritableSignal<this>` | Current editable state of filter fields (excludes `form` itself). |
+| `form` | `FieldTree<this>` | Signals-based form tree for binding inputs. |
+| `query` | `Signal<any>` | Raw query params signal (from `queryParams` observable). |
+| `serialized` | `Signal<Record<string, any>>` | Serialized filter state. Override to add computed/external fields. |
+| `q` | `Signal<Record<string, any>>` | Query params object ready for `Router.navigate`. Respects `key` namespacing. |
+| `qsQueryParams` | `Signal<QsHttpParams>` | `HttpParams`-compatible object serialized with `qs` (array brackets format). Pass to `HttpClient` methods. |
+| `isEmpty` | `Signal<boolean>` | `true` when all filter fields are empty (ignores `page` and `limit`). |
+
+### Decorators
+
+Decorators register fields for URL parsing and serialization. They must be applied to class properties.
+
+#### `@FilterProperty(serialize?)`
+
+Registers a plain filter field. Optionally accepts a custom `SerializeFn` for serialization.
+
+```typescript
+@FilterProperty()
+search = '';
+
+// With custom serialization
+@FilterProperty(v => v?.toUpperCase() ?? null)
+status = '';
+```
+
+#### `@TransformArray()`
+
+Wraps a single query param value in an array. Ensures the field is always `T[] | null` regardless of whether the URL contains one or multiple values.
+
+```typescript
+@TransformArray()
+ids: string[] = [];
+```
+
+#### `@TransformBoolean()`
+
+Parses `'true'` → `true`, `'false'` → `false`, anything else → `null`. Also handles arrays of booleans.
+
+```typescript
+@TransformBoolean()
+active: boolean | null = null;
+```
+
+#### `@TransformNumber()`
+
+Parses string to number. Returns `null` for `NaN`. Handles arrays of numbers (filters out `NaN` values).
+
+```typescript
+@TransformNumber()
+categoryId: number | null = null;
+```
+
+### Types
+
+```typescript
+// Custom parse function for a field
+type ParseFn = (v: any, filter?: BaseSignalFilter) => any;
+
+// Custom serialize function for a field
+type SerializeFn = (v: any, filter?: BaseSignalFilter) => string | string[] | null;
+```
+
+### `QsHttpParams`
+
+Extends `HttpParams`. Serializes to a query string using `qs` with `arrayFormat: 'brackets'`.
+
+```typescript
+// ?ids[]=1&ids[]=2 instead of ?ids=1&ids=2
+this.http.get('/api/list', {params: this.filter.qsQueryParams()});
+```
+
+## Entry points
+
+### `@kovalenko/base-filter/luxon`
+
+Provides `TransformLuxon` — parses a query param ISO string into a `luxon` `DateTime`. Returns `null` for invalid or missing values.
+
+```shell
+npm i luxon
+npm i -D @types/luxon
+```
+
+```typescript
+import {TransformLuxon} from '@kovalenko/base-filter/luxon';
+
+export class ReportFilter extends BaseSignalFilter {
+  @TransformLuxon()
+  from: DateTime | null = null;
+
+  @TransformLuxon()
+  to: DateTime | null = null;
+}
+```
+
+### `@kovalenko/base-filter/moment`
+
+Provides `TransformMoment` — parses a query param string into a `moment` object. Returns `null` for invalid or missing values.
+
+```shell
+npm i moment
+```
+
+```typescript
+import {TransformMoment} from '@kovalenko/base-filter/moment';
+
+export class ReportFilter extends BaseSignalFilter {
+  @TransformMoment()
+  from: moment.Moment | null = null;
+}
+```
+
+## `tsconfig.json` requirements
+
+Secondary entry points (`/luxon`, `/moment`) and Angular subpath imports require `moduleResolution: bundler`:
+
+```json
+{
+  "compilerOptions": {
+    "moduleResolution": "bundler",
+    "module": "ES2022",
+    "target": "ES2022"
   }
 }
 ```
 
 ## License
+
 MIT
