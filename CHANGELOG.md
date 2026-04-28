@@ -1,3 +1,15 @@
+# [2.0.0](https://github.com/menelai/base-filter/compare/v1.3.6...v2.0.0) (2026-04-28)
+
+
+### Features
+
+* signal based filter ([4198771](https://github.com/menelai/base-filter/commit/419877173891d400fb36ea79110a4bfedfc28650))
+
+
+### BREAKING CHANGES
+
+* complete rewrite to signal-based API
+
 ## [1.3.6](https://github.com/menelai/base-filter/compare/v1.3.5...v1.3.6) (2025-11-04)
 
 
