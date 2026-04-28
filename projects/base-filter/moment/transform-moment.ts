@@ -1,7 +1,11 @@
-import {DateTime} from 'luxon';
+import moment from 'moment';
 import {transformFn} from '@kovalenko/base-filter';
 
-export function TransformLuxon(): PropertyDecorator {
+/**
+ * Transforms query param to Moment
+ * @constructor
+ */
+export function TransformMoment(): PropertyDecorator {
   return (object: any, propertyName: string | symbol): void => {
     transformFn(object, propertyName, parser);
   };
@@ -12,7 +16,7 @@ function parser(value: unknown): any {
     return null;
   }
 
-  const v = DateTime.fromISO(value as any);
+  const v = moment(value);
 
-  return v.isValid ? v : null;
+  return v.isValid() ? v : null;
 }

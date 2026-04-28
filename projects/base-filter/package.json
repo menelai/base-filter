@@ -3,11 +3,11 @@
   "version": "0.0.0-semantically-released",
   "description": "my base filter",
   "peerDependencies": {
-    "moment": "^2.29.4"
+    "qs": "^6.11.2",
+    "@angular/core": ">=21",
+    "@angular/forms": ">=21"
   },
   "dependencies": {
-    "class-transformer": "^0.5.1",
-    "qs": "^6.11.2",
     "tslib": "^2.3.0"
   },
   "repository": {
@@ -17,7 +17,8 @@
   "keywords": [
     "angular",
     "http",
-    "filter"
+    "filter",
+    "signal"
   ],
   "author": "Kovalenko",
   "license": "MIT",

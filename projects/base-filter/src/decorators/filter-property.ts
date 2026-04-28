@@ -1,5 +1,7 @@
 import {SerializeFn} from '../serialize-fn';
 
+import {BaseSignalFilter} from '../base-signal-filter';
+
 /**
  * Defines filter property
  * @param serialize — serialization function, optional
@@ -7,13 +9,15 @@ import {SerializeFn} from '../serialize-fn';
  */
 export function FilterProperty(serialize?: SerializeFn): PropertyDecorator {
   return (object: any, propertyName: string | symbol): void => {
-    object.constructor.deletableProperties ??= new Set();
-    object.constructor.serializeField ??= new Map();
+    const c = object.constructor as typeof BaseSignalFilter;
+    const p = propertyName as keyof BaseSignalFilter;
 
-    object.constructor.deletableProperties.add(propertyName);
+    if (!c.filterProperties.has(p)) {
+      c.filterProperties.set(p, []);
+    }
 
     if (serialize) {
-      object.constructor.serializeField.set(propertyName, serialize);
+      c.serializeField.set(p, serialize);
     }
   };
 }

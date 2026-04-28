@@ -5,7 +5,7 @@ export class QsHttpParams extends HttpParams {
 
   constructor(
     private dto: Record<string, any> = {},
-    private stringifyOptions: IStringifyOptions = {}
+    private stringifyOptions: IStringifyOptions = {},
   ) {
     super();
   }
