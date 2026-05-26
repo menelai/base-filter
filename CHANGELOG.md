@@ -1,3 +1,10 @@
+## [2.0.3](https://github.com/menelai/base-filter/compare/v2.0.2...v2.0.3) (2026-05-26)
+
+
+### Bug Fixes
+
+* transform array ([337d003](https://github.com/menelai/base-filter/commit/337d0039398b29e3c77c98781024cb2474b6450b))
+
 ## [2.0.2](https://github.com/menelai/base-filter/compare/v2.0.1...v2.0.2) (2026-04-28)
 
 
