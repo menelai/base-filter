@@ -11,5 +11,8 @@ export function TransformArray(): PropertyDecorator {
 }
 
 function parser(v: unknown): any {
-  return Array.isArray(v) || v == null ? v : [v];
+  if (v == null) {
+    return null;
+  }
+  return [...new Set(Array.isArray(v) ? v : [v])];
 }
