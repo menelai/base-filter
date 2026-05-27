@@ -84,7 +84,7 @@ export class BaseSignalFilter {
       throw new Error(`invalid limit: ${this.constructor.name} ${defaultLimit}: expected ${(this.constructor as any).limitOptions.join(', ')}`);
     }
 
-    this.limit = signal(defaultLimit ?? null);
+    this.limit = signal(defaultLimit ?? 0);
     this.query = queryParams ? toSignal(queryParams) : signal({}).asReadonly();
 
     if (this.defaultLimit !== undefined) {
