@@ -1,3 +1,10 @@
+## [2.0.4](https://github.com/menelai/base-filter/compare/v2.0.3...v2.0.4) (2026-05-27)
+
+
+### Bug Fixes
+
+* default limit is 0 ([87c3bb5](https://github.com/menelai/base-filter/commit/87c3bb524991710e63b590a8c83a89f542e2c656))
+
 ## [2.0.3](https://github.com/menelai/base-filter/compare/v2.0.2...v2.0.3) (2026-05-26)
 
 
