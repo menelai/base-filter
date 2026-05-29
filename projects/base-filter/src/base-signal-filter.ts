@@ -31,7 +31,7 @@ export class BaseSignalFilter {
 
   readonly page = signal((this.constructor as typeof BaseSignalFilter).defaultPage);
 
-  readonly limit: WritableSignal<number | null>;
+  readonly limit: WritableSignal<number>;
 
   readonly query: Signal<any>;
 
@@ -137,6 +137,15 @@ export class BaseSignalFilter {
 
   protected transformParams(): void {
     if (!this.query()) {
+      this.limit.set(this.defaultLimit ?? 0);
+      this.page.set((this.constructor as typeof BaseSignalFilter).defaultPage);
+      const fields = {} as Record<string, any>;
+
+      for (const [key] of (this.constructor as typeof BaseSignalFilter).filterProperties.entries()) {
+        fields[key] = this[key];
+      }
+
+      this.editable.set(fields as any);
       return;
     }
 
@@ -149,7 +158,7 @@ export class BaseSignalFilter {
     this.limit.set(
       this.limitOptions().includes(Number(queryParams['limit']))
         ? Number(queryParams['limit'])
-        : this.defaultLimit ?? null,
+        : this.defaultLimit ?? 0,
     );
 
     const fields = {} as Record<string, any>;
