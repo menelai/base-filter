@@ -1,3 +1,10 @@
+## [2.0.9](https://github.com/menelai/base-filter/compare/v2.0.8...v2.0.9) (2026-05-29)
+
+
+### Bug Fixes
+
+* no query ([d2d239b](https://github.com/menelai/base-filter/commit/d2d239bf256764a48a6dde1b122c80dfc4c87a34))
+
 ## [2.0.8](https://github.com/menelai/base-filter/compare/v2.0.7...v2.0.8) (2026-05-29)
 
 
