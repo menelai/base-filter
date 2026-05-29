@@ -1,3 +1,10 @@
+## [2.0.7](https://github.com/menelai/base-filter/compare/v2.0.6...v2.0.7) (2026-05-29)
+
+
+### Bug Fixes
+
+* filterProperties ([202d7f4](https://github.com/menelai/base-filter/commit/202d7f43bcb96d6a30bc3a8061af7a4ceee65a8d))
+
 ## [2.0.6](https://github.com/menelai/base-filter/compare/v2.0.5...v2.0.6) (2026-05-29)
 
 
