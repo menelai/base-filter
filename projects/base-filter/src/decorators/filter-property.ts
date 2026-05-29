@@ -1,7 +1,7 @@
 import {SerializeFn} from '../serialize-fn';
 
 import {BaseSignalFilter} from '../base-signal-filter';
-import {transformFn} from '@kovalenko/base-filter/src';
+import {transformFn} from './transform-fn';
 
 /**
  * Defines filter property
