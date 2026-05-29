@@ -1,13 +1,22 @@
 import {BaseSignalFilter} from '../base-signal-filter';
 
 export function transformFn(object: any, propertyName: string | symbol, parser: (v: unknown) => any): void {
-  const c = object.constructor as typeof BaseSignalFilter;
+  const ctor = object.constructor as typeof BaseSignalFilter;
+
+  if (!Object.prototype.hasOwnProperty.call(ctor, 'filterProperties')) {
+    const parentProps = (ctor as any).filterProperties ?? [];
+    Object.defineProperty(ctor, 'filterProperties', {
+      value: [...parentProps],
+      writable: true,
+    });
+  }
+
   const p = propertyName as keyof BaseSignalFilter;
 
-  let parsers = c.filterProperties.get(p);
+  let parsers = ctor.filterProperties.get(p);
   if (!parsers) {
     parsers = [];
-    c.filterProperties.set(p, parsers);
+    ctor.filterProperties.set(p, parsers);
   }
 
   parsers.push(parser);
