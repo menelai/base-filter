@@ -6,7 +6,7 @@ export function transformFn(object: any, propertyName: string | symbol, parser: 
   if (!Object.prototype.hasOwnProperty.call(ctor, 'filterProperties')) {
     const parentProps = (ctor as any).filterProperties ?? [];
     Object.defineProperty(ctor, 'filterProperties', {
-      value: [...parentProps],
+      value: new Map(parentProps),
       writable: true,
     });
   }
