@@ -85,7 +85,7 @@ export class BaseSignalFilter {
     }
 
     this.limit = signal(defaultLimit ?? 0);
-    this.query = queryParams ? toSignal(queryParams) : signal({}).asReadonly();
+    this.query = queryParams ? toSignal(queryParams) : signal(null).asReadonly();
 
     if (this.defaultLimit !== undefined) {
       this.editable = signal<typeof this>(this.serialize() as any, {
@@ -95,9 +95,7 @@ export class BaseSignalFilter {
       this.form = this.createFrom() as any;
 
       effect(() => {
-        if (this.query()) {
-          this.transformParams();
-        }
+        this.transformParams();
       });
 
       let firstChange = true;
@@ -138,6 +136,10 @@ export class BaseSignalFilter {
   }
 
   protected transformParams(): void {
+    if (!this.query()) {
+      return;
+    }
+
     let queryParams = parse(location.search.slice(1)) as Record<string, any>;
     if (this.key()) {
       queryParams = queryParams[this.key()] ?? {};
