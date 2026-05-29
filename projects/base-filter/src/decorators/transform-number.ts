@@ -12,9 +12,9 @@ export function TransformNumber(): PropertyDecorator {
 
 function parser(v: unknown): any {
   if (Array.isArray(v)) {
-    return v.map(r => Number(r)).filter(r => !isNaN(r));
+    return v.filter(r => r != null && !isNaN(Number(r))).map(r => Number(r));
   } else {
-    v = Number(v);
-    return isNaN(v as number) ? null : v;
+    return v == null || isNaN(Number(v)) ? null : Number(v);
+
   }
 }
