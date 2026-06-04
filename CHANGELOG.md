@@ -1,3 +1,10 @@
+## [2.0.11](https://github.com/menelai/base-filter/compare/v2.0.10...v2.0.11) (2026-06-04)
+
+
+### Bug Fixes
+
+* default values ([8f70b2c](https://github.com/menelai/base-filter/commit/8f70b2c00a3bf9a948b9bfed004bf416825160d4))
+
 ## [2.0.10](https://github.com/menelai/base-filter/compare/v2.0.9...v2.0.10) (2026-05-29)
 
 
