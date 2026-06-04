@@ -137,12 +137,19 @@ export class BaseSignalFilter {
 
   protected transformParams(): void {
     if (!this.query()) {
-      this.limit.set(this.defaultLimit ?? 0);
-      this.page.set((this.constructor as typeof BaseSignalFilter).defaultPage);
-      const fields = {} as Record<string, any>;
+      if (this.limit() == null) {
+        this.limit.set(this.defaultLimit ?? 0);
+      }
+      if (this.page() == null) {
+        this.page.set((this.constructor as typeof BaseSignalFilter).defaultPage);
+      }
+
+      const fields: Record<any, any> = {...this.editable()};
 
       for (const [key] of (this.constructor as typeof BaseSignalFilter).filterProperties.entries()) {
-        fields[key] = this[key];
+        if (fields[key] === undefined) {
+          fields[key] = this[key];
+        }
       }
 
       this.editable.set(fields as any);
