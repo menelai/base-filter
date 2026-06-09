@@ -1,3 +1,10 @@
+# [2.1.0](https://github.com/menelai/base-filter/compare/v2.0.11...v2.1.0) (2026-06-09)
+
+
+### Features
+
+* get in QsHttpParams ([e2538f9](https://github.com/menelai/base-filter/commit/e2538f9407ec944d061f58f9169753734a5bc726))
+
 ## [2.0.11](https://github.com/menelai/base-filter/compare/v2.0.10...v2.0.11) (2026-06-04)
 
 
