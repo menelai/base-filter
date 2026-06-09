@@ -12,6 +12,10 @@ export class QsHttpParams extends HttpParams {
 
   // TODO добавить публичные методы по мере необходимости
 
+  override get<T>(param: string): T | null {
+    return this.dto[param] ?? null;
+  }
+
   override toString(): string {
     return stringify(this.dto, {arrayFormat: 'brackets', ...this.stringifyOptions});
   }
