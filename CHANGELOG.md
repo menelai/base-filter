@@ -1,3 +1,11 @@
+## [2.1.1](https://github.com/menelai/base-filter/compare/v2.1.0...v2.1.1) (2026-07-03)
+
+
+### Bug Fixes
+
+* serialize properties ([cffff9e](https://github.com/menelai/base-filter/commit/cffff9ef475de84a91741457a1ac6b3f754eefe1))
+* serialize properties ([111210a](https://github.com/menelai/base-filter/commit/111210ae70c5f0e4bbf2164e364f041d32b19834))
+
 # [2.1.0](https://github.com/menelai/base-filter/compare/v2.0.11...v2.1.0) (2026-06-09)
 
 
