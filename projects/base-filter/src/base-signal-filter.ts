@@ -181,13 +181,17 @@ export class BaseSignalFilter {
   }
 
   protected serialize(): Record<string, any> {
-    return [...(this.constructor as typeof BaseSignalFilter).filterProperties.keys()].reduce(
+    const klass = (this.constructor as typeof BaseSignalFilter);
+
+    return [...klass.filterProperties.keys()].reduce(
       (ret, key) => {
         const property = this.editable ? (this.editable() as any)[key] : this[key];
 
         return {
           ...ret,
-          [key]: property,
+          [key]: klass.serializeField.has(key)
+            ? klass.serializeField.get(key)!(property, this.editable ? this.editable() : this)
+            : property,
         };
       },
       {
