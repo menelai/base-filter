@@ -190,7 +190,7 @@ export class BaseSignalFilter {
         return {
           ...ret,
           [key]: klass.serializeField.has(key)
-            ? klass.serializeField.get(key)!(property, this.editable ? this.editable() : this)
+            ? klass.serializeField.get(key)!(property, this.editable ? this.editable() as any : this)
             : property,
         };
       },
