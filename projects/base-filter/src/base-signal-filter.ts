@@ -1,6 +1,6 @@
 import {computed, effect, Signal, signal, WritableSignal} from '@angular/core';
 import {toSignal} from '@angular/core/rxjs-interop';
-import {FieldTree, form, SchemaFn} from '@angular/forms/signals';
+import {FieldTree, form, FormOptions, SchemaFn} from '@angular/forms/signals';
 import {parse} from 'qs';
 import {Observable} from 'rxjs';
 
@@ -75,6 +75,7 @@ export class BaseSignalFilter {
   constructor(
     private readonly defaultLimit: number | undefined,
     queryParams?: Observable<any>,
+    formOptions?: FormOptions<Omit<typeof this, 'editable' | 'form'>>,
   ) {
     if (
       defaultLimit !== undefined
@@ -92,7 +93,7 @@ export class BaseSignalFilter {
         equal: (a, b) => JSON.stringify(a) === JSON.stringify(b),
       });
 
-      this.form = this.createFrom() as any;
+      this.form = this.createFrom(formOptions) as any;
 
       effect(() => {
         this.transformParams();
@@ -201,7 +202,9 @@ export class BaseSignalFilter {
     );
   }
 
-  protected createFrom(): FieldTree<Omit<typeof this, 'editable' | 'form'>> {
-    return form(this.editable, (this.constructor as typeof BaseSignalFilter).schema);
+  protected createFrom(formOptions?: FormOptions<Omit<typeof this, 'editable' | 'form'>>): FieldTree<Omit<typeof this, 'editable' | 'form'>> {
+    return formOptions
+      ? form(this.editable, (this.constructor as typeof BaseSignalFilter).schema, formOptions)
+      : form(this.editable, (this.constructor as typeof BaseSignalFilter).schema);
   }
 }
