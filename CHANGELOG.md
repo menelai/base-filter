@@ -1,3 +1,10 @@
+# [2.2.0](https://github.com/menelai/base-filter/compare/v2.1.1...v2.2.0) (2026-07-28)
+
+
+### Features
+
+* optional formOptions ([5220077](https://github.com/menelai/base-filter/commit/522007742bf697c1e60fd14924dcf97d1afe091a))
+
 ## [2.1.1](https://github.com/menelai/base-filter/compare/v2.1.0...v2.1.1) (2026-07-03)
 
 
