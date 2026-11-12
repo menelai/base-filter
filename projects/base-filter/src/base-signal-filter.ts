@@ -157,7 +157,10 @@ export class BaseSignalFilter {
       return;
     }
 
-    let queryParams = parse(location.search.slice(1)) as Record<string, any>;
+    let queryParams = parse(location.search.slice(1), {
+      arrayLimit: 5000,
+      parameterLimit: 8000,
+    }) as Record<string, any>;
     if (this.key()) {
       queryParams = queryParams[this.key()] ?? {};
     }
