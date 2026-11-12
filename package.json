@@ -11,7 +11,7 @@
     "base-filter:publish": "cd dist/base-filter && npm publish --access=public",
     "pack": "copyfiles README.md CHANGELOG.md dist/base-filter"
   },
-  "private": true,
+  "private": false,
   "dependencies": {
     "@angular/animations": "^21.2.10",
     "@angular/common": "^21.2.10",
