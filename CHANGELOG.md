@@ -1,3 +1,10 @@
+## [2.2.1](https://github.com/menelai/base-filter/compare/v2.2.0...v2.2.1) (2026-11-12)
+
+
+### Bug Fixes
+
+* parse limits ([1a2e760](https://github.com/menelai/base-filter/commit/1a2e760c323287067fe57f18e650154096b211cc))
+
 # [2.2.0](https://github.com/menelai/base-filter/compare/v2.1.1...v2.2.0) (2026-07-28)
 
 
