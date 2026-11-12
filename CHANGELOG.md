@@ -1,3 +1,10 @@
+## [2.2.2](https://github.com/menelai/base-filter/compare/v2.2.1...v2.2.2) (2026-11-12)
+
+
+### Bug Fixes
+
+* publish ([19dd1da](https://github.com/menelai/base-filter/commit/19dd1dabc4839f4feb64f2e9fdee2b50d7b39054))
+
 ## [2.2.1](https://github.com/menelai/base-filter/compare/v2.2.0...v2.2.1) (2026-11-12)
 
 
