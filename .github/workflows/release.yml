@@ -7,6 +7,12 @@ on:
   push:
     branches: [ main ]
 
+permissions:
+  id-token: write     # OIDC для npm
+  contents: write     # теги, GitHub release
+  issues: write       # комментарии, если используется @semantic-release/github
+  pull-requests: write
+
 jobs:
   build:
 
